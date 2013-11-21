@@ -1,0 +1,13 @@
+c:\users\camillos\documents\visual studio 2012\Projects\DPGenerator\DPGenerator\bin\Debug\DPGenerator.exe.config
+c:\users\camillos\documents\visual studio 2012\Projects\DPGenerator\DPGenerator\bin\Debug\DPGenerator.exe
+c:\users\camillos\documents\visual studio 2012\Projects\DPGenerator\DPGenerator\bin\Debug\DPGenerator.pdb
+c:\users\camillos\documents\visual studio 2012\Projects\DPGenerator\DPGenerator\obj\Debug\DPGenerator.csprojResolveAssemblyReference.cache
+c:\users\camillos\documents\visual studio 2012\Projects\DPGenerator\DPGenerator\obj\Debug\MainWindow.baml
+c:\users\camillos\documents\visual studio 2012\Projects\DPGenerator\DPGenerator\obj\Debug\MainWindow.g.cs
+c:\users\camillos\documents\visual studio 2012\Projects\DPGenerator\DPGenerator\obj\Debug\App.g.cs
+c:\users\camillos\documents\visual studio 2012\Projects\DPGenerator\DPGenerator\obj\Debug\DPGenerator_MarkupCompile.cache
+c:\users\camillos\documents\visual studio 2012\Projects\DPGenerator\DPGenerator\obj\Debug\DPGenerator.g.resources
+c:\users\camillos\documents\visual studio 2012\Projects\DPGenerator\DPGenerator\obj\Debug\DPGenerator.Properties.Resources.resources
+c:\users\camillos\documents\visual studio 2012\Projects\DPGenerator\DPGenerator\obj\Debug\DPGenerator.csproj.GenerateResource.Cache
+c:\users\camillos\documents\visual studio 2012\Projects\DPGenerator\DPGenerator\obj\Debug\DPGenerator.exe
+c:\users\camillos\documents\visual studio 2012\Projects\DPGenerator\DPGenerator\obj\Debug\DPGenerator.pdb
