@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Microsoft.Win32;
 using System.Drawing;
+using DPGenerator.Model;
 
 namespace DPGenerator
 {
@@ -173,6 +174,34 @@ namespace DPGenerator
             saveFileDialog.ShowDialog();
 
             return saveFileDialog.FileName;
+        }
+
+
+
+
+        private void Button_Click_5(object sender, RoutedEventArgs e)
+        {
+            LoadFiles();
+        }
+
+        private void Button_Click_6(object sender, RoutedEventArgs e)
+        {
+            if (filesName.Count < 2) return;
+
+            CommonPart cp = new CommonPart(filesName[0], filesName[1]);
+            cp.Generate(75, 238, 132);
+
+            CommonDescriptor descriptor = new CommonDescriptor()
+                {
+                    CommonColor = System.Drawing.Color.FromArgb(75, 238, 132),
+                    UpColor = System.Drawing.Color.FromArgb(255, 0, 0),
+                    DownColor = System.Drawing.Color.FromArgb(0, 0, 255)
+                };
+
+            CellularAutomaton2D automat2D = new CellularAutomaton2D(cp.CommonBitmap, descriptor);
+
+            automat2D.Run();
+
         }
 
 

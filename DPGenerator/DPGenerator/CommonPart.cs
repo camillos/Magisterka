@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
+using DPGenerator.Model;
 
 namespace DPGenerator
 {
@@ -16,6 +17,9 @@ namespace DPGenerator
         private List<Point3D> topPoints = new List<Point3D>();      // punkty ktore sa na gorze a nie ma na dole
         private List<Point3D> downPoints = new List<Point3D>();     // punkty ktore sa na dole a nie ma na gorze
         private Bitmap outputBitmap;
+
+        public Bitmap CommonBitmap { get { return outputBitmap; } }
+
 
         public CommonPart(string fileTop, string fileDown)
         {

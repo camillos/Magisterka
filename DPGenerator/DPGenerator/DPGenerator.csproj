@@ -69,7 +69,11 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Point3D.cs" />
+    <Compile Include="Model\Cell.cs" />
+    <Compile Include="Model\CellularAutomaton2D.cs" />
+    <Compile Include="Model\CommonDescriptor.cs" />
+    <Compile Include="Model\Config.cs" />
+    <Compile Include="Model\Point3D.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

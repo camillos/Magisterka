@@ -11,3 +11,16 @@ c:\users\camillos\documents\visual studio 2012\Projects\DPGenerator\DPGenerator\
 c:\users\camillos\documents\visual studio 2012\Projects\DPGenerator\DPGenerator\obj\Debug\DPGenerator.csproj.GenerateResource.Cache
 c:\users\camillos\documents\visual studio 2012\Projects\DPGenerator\DPGenerator\obj\Debug\DPGenerator.exe
 c:\users\camillos\documents\visual studio 2012\Projects\DPGenerator\DPGenerator\obj\Debug\DPGenerator.pdb
+C:\Users\camillos\Documents\GitHub\Magisterka\DPGenerator\DPGenerator\bin\Debug\DPGenerator.exe.config
+C:\Users\camillos\Documents\GitHub\Magisterka\DPGenerator\DPGenerator\obj\Debug\DPGenerator.exe
+C:\Users\camillos\Documents\GitHub\Magisterka\DPGenerator\DPGenerator\obj\Debug\DPGenerator.pdb
+C:\Users\camillos\Documents\GitHub\Magisterka\DPGenerator\DPGenerator\obj\Debug\DPGenerator.csprojResolveAssemblyReference.cache
+C:\Users\camillos\Documents\GitHub\Magisterka\DPGenerator\DPGenerator\obj\Debug\MainWindow.baml
+C:\Users\camillos\Documents\GitHub\Magisterka\DPGenerator\DPGenerator\obj\Debug\MainWindow.g.cs
+C:\Users\camillos\Documents\GitHub\Magisterka\DPGenerator\DPGenerator\obj\Debug\App.g.cs
+C:\Users\camillos\Documents\GitHub\Magisterka\DPGenerator\DPGenerator\obj\Debug\DPGenerator_MarkupCompile.cache
+C:\Users\camillos\Documents\GitHub\Magisterka\DPGenerator\DPGenerator\obj\Debug\DPGenerator.g.resources
+C:\Users\camillos\Documents\GitHub\Magisterka\DPGenerator\DPGenerator\obj\Debug\DPGenerator.Properties.Resources.resources
+C:\Users\camillos\Documents\GitHub\Magisterka\DPGenerator\DPGenerator\obj\Debug\DPGenerator.csproj.GenerateResource.Cache
+C:\Users\camillos\Documents\GitHub\Magisterka\DPGenerator\DPGenerator\bin\Debug\DPGenerator.exe
+C:\Users\camillos\Documents\GitHub\Magisterka\DPGenerator\DPGenerator\bin\Debug\DPGenerator.pdb
