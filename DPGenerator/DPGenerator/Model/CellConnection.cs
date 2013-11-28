@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace DPGenerator.Model
 {
-    class Config
+    class CellConnection
     {
-        public static bool CA_SaveAllIteration = false;
-
+        public Cell Up { get; set; }
+        public Cell Middle { get; set; }
+        public Cell Down { get; set; }
     }
 }

@@ -16,6 +16,7 @@ using Microsoft.Win32;
 using System.Drawing;
 using DPGenerator.Model;
 
+
 namespace DPGenerator
 {
     /// <summary>
@@ -190,6 +191,7 @@ namespace DPGenerator
 
             CommonPart cp = new CommonPart(filesName[0], filesName[1]);
             cp.Generate(75, 238, 132);
+            cp.Clear();
 
             CommonDescriptor descriptor = new CommonDescriptor()
                 {
@@ -198,10 +200,25 @@ namespace DPGenerator
                     DownColor = System.Drawing.Color.FromArgb(0, 0, 255)
                 };
 
-            CellularAutomaton2D automat2D = new CellularAutomaton2D(cp.CommonBitmap, descriptor);
+            //CellularAutomaton2D automat2D = new CellularAutomaton2D(cp.CommonBitmap, descriptor);
 
-            automat2D.Run();
 
+            //automat2D.Run();
+            //automat2D.ClearUnnecessaryCells();
+
+
+            //automat2D.CreateConnection();
+            //List<Cell> connection = automat2D.GetCellWithConnection();
+
+            
+            LevelConnector connector = new LevelConnector(cp.CommonBitmap, descriptor);
+
+            connector.CreateLevels();
+            connector.ProcessLevel(LevelConnector.LevelType.Up);
+            connector.ProcessLevel(LevelConnector.LevelType.Down);
+
+            PlyWriter.WriteConnection(connector.upLevel, cp.CommonBitmap.Width, cp.CommonBitmap.Height);
+        
         }
 
 

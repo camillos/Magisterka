@@ -91,5 +91,14 @@ namespace DPGenerator
         {
             outputBitmap.Save(fileName);
         }
+
+        public void Clear()
+        {
+            top.Dispose();
+            down.Dispose();
+            commPoints.Clear();
+            topPoints.Clear();
+            downPoints.Clear();
+        }
     }
 }

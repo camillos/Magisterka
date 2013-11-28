@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace DPGenerator.Model
 {
-    class Config
+    class PointConnection
     {
-        public static bool CA_SaveAllIteration = false;
-
+        public Point2D StartPoint { get; set; }
+        public Point2D EndPoint { get; set; }
     }
 }
