@@ -214,6 +214,7 @@ namespace DPGenerator
             LevelConnector connector = new LevelConnector(cp.CommonBitmap, descriptor);
 
             connector.CreateLevels();
+            connector.SaveLevel();
             connector.ProcessLevel(LevelConnector.LevelType.Up);
             connector.ProcessLevel(LevelConnector.LevelType.Down);
 

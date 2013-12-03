@@ -14,7 +14,7 @@ namespace DPGenerator.Model
     {
         public enum LevelType
         {
-            Up, 
+            Up,
             Down
         }
 
@@ -64,12 +64,19 @@ namespace DPGenerator.Model
                         {
                             LevelPoint point = new LevelPoint(x, y, LevelPoint.LevelPointType.Countour);
                             middleLevel[x, y] = point;
-                            upLevel[x, y] = point;
-                            downLevel[x, y] = point;
-
                             countMiddleLevell++;
-                            countUpLevel++;
-                            countDownLevel++;
+
+                            if (IsCommonWithLevel(x, y, descriptor.UpColor))
+                            {
+                                upLevel[x, y] = point;
+                                countUpLevel++;
+                            }
+
+                            if (IsCommonWithLevel(x, y, descriptor.DownColor))
+                            {
+                                downLevel[x, y] = point;
+                                countDownLevel++;
+                            }
                         }
                     }
 
@@ -92,9 +99,6 @@ namespace DPGenerator.Model
                         downLevel[x, y] = point;
                         countDownLevel++;
                     }
-
-
-
                 }
             }
         }
@@ -110,7 +114,7 @@ namespace DPGenerator.Model
                 myColor.B != descriptor.CommonColor.B)
                 return false;
 
-            
+
             Point2D[] neighbor = Helper.GetMoorNeighbors(x, y, width, height);
             Color neighColor;
 
@@ -129,6 +133,25 @@ namespace DPGenerator.Model
 
             return false;
 
+        }
+
+        private bool IsCommonWithLevel(int x, int y, Color levelColor)
+        {
+            Point2D[] neighbor = Helper.GetMoorNeighbors(x, y, width, height);
+            Color neighColor;
+
+            foreach (Point2D p in neighbor)
+            {
+                neighColor = common.GetPixel(p.X, p.Y);
+
+                if (neighColor.R == levelColor.R ||
+                    neighColor.G == levelColor.G ||
+                    neighColor.B == levelColor.B)
+
+                    return true;
+            }
+
+            return false;
         }
 
         public void ProcessLevel(LevelType levelType)
@@ -153,7 +176,7 @@ namespace DPGenerator.Model
             if (levelType == LevelType.Down)
                 level = downLevel;
 
-            if(level == null) return;
+            if (level == null) return;
 
             List<LevelPoint> pointsToDelete = new List<LevelPoint>();
 
@@ -168,12 +191,80 @@ namespace DPGenerator.Model
                     // jesli ktorykolwiek z sasiadow jest nullem, to nasz punkt jest konturem
                     // i go nie usuwamy
                     Point2D[] neighborCords = Helper.GetMoorNeighbors(x, y, width, height);
-                    List<LevelPoint> neighbor = new List<LevelPoint>();
+                    //List<LevelPoint> neighbor = new List<LevelPoint>();
 
                     // jesli punkt jest akurat konturem, to usuwamy go jesli sasiaduje
                     // z punktami extended (musi sasiadowac z 3 punktami  wjednej osi X lub Y)
                     if (level[x, y].Type == LevelPoint.LevelPointType.Countour)
                     {
+                        toDelete = true;
+                        //toDelete = false;
+                        //// omijamy punkty kontruru ktore sa na brzegach struktury
+                        //if (x > 0 && x < width - 1 && y > 0 && y < height - 1)
+                        //{
+                        //    int left = x - 1;
+                        //    int right = x + 1;
+                        //    int top = y - 1;
+                        //    int down = y + 1;
+
+                        //    int counter = 0;
+
+                        //    // sprawdza gorena linie sasiadow
+                        //    if (level[left, top] != null)
+                        //        if (level[left, top].Type == LevelPoint.LevelPointType.Extended)
+                        //            counter++;
+                        //    if (level[x, top] != null)
+                        //        if (level[x, top].Type == LevelPoint.LevelPointType.Extended)
+                        //            counter++;
+                        //    if (level[right, top] != null)
+                        //        if (level[right, top].Type == LevelPoint.LevelPointType.Extended)
+                        //            counter++;
+
+                        //    if (counter == 3) toDelete = true;
+                        //    counter = 0;
+
+                        //    // sprawdza dolna linie sasiadow
+                        //    if (level[left, down] != null)
+                        //        if (level[left, down].Type == LevelPoint.LevelPointType.Extended)
+                        //            counter++;
+                        //    if (level[x, down] != null)
+                        //        if (level[x, down].Type == LevelPoint.LevelPointType.Extended)
+                        //            counter++;
+                        //    if (level[right, down] != null)
+                        //        if (level[right, down].Type == LevelPoint.LevelPointType.Extended)
+                        //            counter++;
+
+                        //    if (counter == 3) toDelete = true;
+                        //    counter = 0;
+
+                        //    // sprawdza lewa linie sasiadow
+                        //    if (level[left, top] != null)
+                        //        if (level[left, top].Type == LevelPoint.LevelPointType.Extended)
+                        //            counter++;
+                        //    if (level[left, y] != null)
+                        //        if (level[left, y].Type == LevelPoint.LevelPointType.Extended)
+                        //            counter++;
+                        //    if (level[left, down] != null)
+                        //        if (level[left, down].Type == LevelPoint.LevelPointType.Extended)
+                        //            counter++;
+
+                        //    if (counter == 3) toDelete = true;
+                        //    counter = 0;
+
+                        //    // sprawdza prawa linie sasiadow
+                        //    if (level[right, top] != null)
+                        //        if (level[right, top].Type == LevelPoint.LevelPointType.Extended)
+                        //            counter++;
+                        //    if (level[right, y] != null)
+                        //        if (level[right, y].Type == LevelPoint.LevelPointType.Extended)
+                        //            counter++;
+                        //    if (level[right, down] != null)
+                        //        if (level[right, down].Type == LevelPoint.LevelPointType.Extended)
+                        //            counter++;
+
+                        //    if (counter == 3) toDelete = true;
+                        //    counter = 0;
+                        //}
 
                     }
                     else
@@ -201,5 +292,25 @@ namespace DPGenerator.Model
 
         }
 
+        public void SaveLevel()
+        {
+            Bitmap bm = new Bitmap(width, height);
+            for(int x = 0; x < width; x++)
+                for (int y = 0; y < height; y++)
+                {
+                    if (middleLevel[x, y] != null)
+                        bm.SetPixel(x, y, descriptor.CommonColor);
+
+                    //if (upLevel[x, y] != null)
+                    //    bm.SetPixel(x, y, descriptor.UpColor);
+
+                    //if (downLevel[x, y] != null)
+                    //    bm.SetPixel(x, y, descriptor.DownColor);
+                }
+
+            bm.Save("temp.bmp");
+        }
+        
+    
     }
 }
