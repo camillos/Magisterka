@@ -33,6 +33,58 @@ namespace DPGenerator.Model
 
         }
 
+        public static Point2D[] GetMoorClockNeighbors(int x, int y, int width, int height)
+        {
+            // bez warunków periodycznych
+            int leftX = x - 1; if (leftX < 0) leftX = 0;
+            int rightX = x + 1; if (rightX >= width) rightX = width - 1;
+            int topY = y - 1; if (topY < 0) topY = 0;
+            int downY = y + 1; if (downY >= height) downY = height - 1;
+
+            Point2D[] neighbors = new Point2D[8];
+            neighbors[0] = new Point2D(leftX, topY);
+            neighbors[1] = new Point2D(x, topY);
+            neighbors[2] = new Point2D(rightX, topY);
+
+
+            neighbors[3] = new Point2D(rightX, y);
+
+            neighbors[4] = new Point2D(rightX, downY);
+            neighbors[5] = new Point2D(x, downY);
+            neighbors[6] = new Point2D(leftX, downY);
+
+            neighbors[7] = new Point2D(leftX, y);
+
+            return neighbors;
+
+        }
+
+        public static Point2D[] GetVonNeumannNeighbors(int x, int y, int width, int height)
+        {
+            // bez warunków periodycznych
+            int leftX = x - 1; if (leftX < 0) leftX = 0;
+            int rightX = x + 1; if (rightX >= width) rightX = width - 1;
+            int topY = y - 1; if (topY < 0) topY = 0;
+            int downY = y + 1; if (downY >= height) downY = height - 1;
+
+            Point2D[] neighbors = new Point2D[4];
+            
+            neighbors[0] = new Point2D(x, topY);
+
+            neighbors[1] = new Point2D(leftX, y);
+            neighbors[2] = new Point2D(rightX, y);
+
+            neighbors[3] = new Point2D(x, downY);
+            
+
+
+            return neighbors;
+
+        }
+
+
+
+
         public static long LevelPointCount;
     }
 }

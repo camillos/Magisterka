@@ -73,6 +73,7 @@
     <Compile Include="Model\Cell.cs" />
     <Compile Include="Model\CellConnection.cs" />
     <Compile Include="Model\CellularAutomaton2D.cs" />
+    <Compile Include="Model\CommonCreator.cs" />
     <Compile Include="Model\CommonDescriptor.cs" />
     <Compile Include="Model\Config.cs" />
     <Compile Include="Model\Helper.cs" />

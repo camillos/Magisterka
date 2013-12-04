@@ -12,235 +12,235 @@ namespace DPGenerator.Model
     /// </summary>
     class LevelConnector
     {
-        public enum LevelType
-        {
-            Up,
-            Down
-        }
+        //public enum LevelType
+        //{
+        //    Up,
+        //    Down
+        //}
 
-        private readonly int width;
-        private readonly int height;
-        private readonly CommonDescriptor descriptor;
-        private readonly Bitmap common;
+        //private readonly int width;
+        //private readonly int height;
+        //private readonly CommonDescriptor descriptor;
+        //private readonly Bitmap common;
 
-        public LevelPoint[,] middleLevel;
-        private long countMiddleLevell = 0;
+        //public LevelPoint[,] middleLevel;
+        //private long countMiddleLevell = 0;
 
-        public LevelPoint[,] upLevel;
-        private long countUpLevel = 0;
+        //public LevelPoint[,] upLevel;
+        //private long countUpLevel = 0;
 
-        private LevelPoint[,] downLevel;
-        private long countDownLevel = 0;
-
-
-        public LevelConnector(Bitmap commonBitmap, CommonDescriptor commonDescriptor)
-        {
-            width = commonBitmap.Width;
-            height = commonBitmap.Height;
-            common = commonBitmap;
-            descriptor = commonDescriptor;
-        }
-
-        public void CreateLevels()
-        {
-            middleLevel = new LevelPoint[width, height];
-            upLevel = new LevelPoint[width, height];
-            downLevel = new LevelPoint[width, height];
-
-            Color color;
-            for (int x = 0; x < width; x++)
-            {
-                for (int y = 0; y < height; y++)
-                {
-                    color = common.GetPixel(x, y);
-
-                    // piksel ma kolor czesci wspolnej
-                    if (color.R == descriptor.CommonColor.R &&
-                        color.G == descriptor.CommonColor.G &&
-                        color.B == descriptor.CommonColor.B)
-                    {
-                        if (IsCommonContour(x, y))
-                        {
-                            LevelPoint point = new LevelPoint(x, y, LevelPoint.LevelPointType.Countour);
-                            middleLevel[x, y] = point;
-                            countMiddleLevell++;
-
-                            if (IsCommonWithLevel(x, y, descriptor.UpColor))
-                            {
-                                upLevel[x, y] = point;
-                                countUpLevel++;
-                            }
-
-                            if (IsCommonWithLevel(x, y, descriptor.DownColor))
-                            {
-                                downLevel[x, y] = point;
-                                countDownLevel++;
-                            }
-                        }
-                    }
-
-                    // piksel ma kolor czesci gornej
-                    if (color.R == descriptor.UpColor.R &&
-                        color.G == descriptor.UpColor.G &&
-                        color.B == descriptor.UpColor.B)
-                    {
-                        LevelPoint point = new LevelPoint(x, y, LevelPoint.LevelPointType.Extended);
-                        upLevel[x, y] = point;
-                        countUpLevel++;
-                    }
-
-                    // piksel ma kolor czesci dolnej
-                    if (color.R == descriptor.DownColor.R &&
-                        color.G == descriptor.DownColor.G &&
-                        color.B == descriptor.DownColor.B)
-                    {
-                        LevelPoint point = new LevelPoint(x, y, LevelPoint.LevelPointType.Extended);
-                        downLevel[x, y] = point;
-                        countDownLevel++;
-                    }
-                }
-            }
-        }
-
-        private bool IsCommonContour(int x, int y)
-        {
-            Color myColor = common.GetPixel(x, y);
-
-            // jesli kolor naszego piksela jest inny niz color czesci wspolenj
-            // to nie moze byc konturem
-            if (myColor.R != descriptor.CommonColor.R ||
-                myColor.G != descriptor.CommonColor.G ||
-                myColor.B != descriptor.CommonColor.B)
-                return false;
+        //private LevelPoint[,] downLevel;
+        //private long countDownLevel = 0;
 
 
-            Point2D[] neighbor = Helper.GetMoorNeighbors(x, y, width, height);
-            Color neighColor;
+        //public LevelConnector(Bitmap commonBitmap, CommonDescriptor commonDescriptor)
+        //{
+        //    width = commonBitmap.Width;
+        //    height = commonBitmap.Height;
+        //    common = commonBitmap;
+        //    descriptor = commonDescriptor;
+        //}
 
-            // jesli ktorykolwiek z sasiadow ma inny kolor niz czesc wspolna
-            // to punkt nalezy do konturu
-            foreach (Point2D p in neighbor)
-            {
-                neighColor = common.GetPixel(p.X, p.Y);
+        //public void CreateLevels()
+        //{
+        //    middleLevel = new LevelPoint[width, height];
+        //    upLevel = new LevelPoint[width, height];
+        //    downLevel = new LevelPoint[width, height];
 
-                if (neighColor.R != descriptor.CommonColor.R ||
-                    neighColor.G != descriptor.CommonColor.G ||
-                    neighColor.B != descriptor.CommonColor.B)
+        //    Color color;
+        //    for (int x = 0; x < width; x++)
+        //    {
+        //        for (int y = 0; y < height; y++)
+        //        {
+        //            color = common.GetPixel(x, y);
 
-                    return true;
-            }
+        //            // piksel ma kolor czesci wspolnej
+        //            if (color.R == descriptor.CommonColor.R &&
+        //                color.G == descriptor.CommonColor.G &&
+        //                color.B == descriptor.CommonColor.B)
+        //            {
+        //                if (IsCommonContour(x, y))
+        //                {
+        //                    LevelPoint point = new LevelPoint(x, y, LevelPoint.LevelPointType.Countour);
+        //                    middleLevel[x, y] = point;
+        //                    countMiddleLevell++;
 
-            return false;
+        //                    if (IsCommonWithLevel(x, y, descriptor.UpColor))
+        //                    {
+        //                        upLevel[x, y] = point;
+        //                        countUpLevel++;
+        //                    }
 
-        }
+        //                    if (IsCommonWithLevel(x, y, descriptor.DownColor))
+        //                    {
+        //                        downLevel[x, y] = point;
+        //                        countDownLevel++;
+        //                    }
+        //                }
+        //            }
 
-        private bool IsCommonWithLevel(int x, int y, Color levelColor)
-        {
-            Point2D[] neighbor = Helper.GetMoorNeighbors(x, y, width, height);
-            Color neighColor;
+        //            // piksel ma kolor czesci gornej
+        //            if (color.R == descriptor.UpColor.R &&
+        //                color.G == descriptor.UpColor.G &&
+        //                color.B == descriptor.UpColor.B)
+        //            {
+        //                LevelPoint point = new LevelPoint(x, y, LevelPoint.LevelPointType.Extended);
+        //                upLevel[x, y] = point;
+        //                countUpLevel++;
+        //            }
 
-            foreach (Point2D p in neighbor)
-            {
-                neighColor = common.GetPixel(p.X, p.Y);
+        //            // piksel ma kolor czesci dolnej
+        //            if (color.R == descriptor.DownColor.R &&
+        //                color.G == descriptor.DownColor.G &&
+        //                color.B == descriptor.DownColor.B)
+        //            {
+        //                LevelPoint point = new LevelPoint(x, y, LevelPoint.LevelPointType.Extended);
+        //                downLevel[x, y] = point;
+        //                countDownLevel++;
+        //            }
+        //        }
+        //    }
+        //}
 
-                if (neighColor.R == levelColor.R ||
-                    neighColor.G == levelColor.G ||
-                    neighColor.B == levelColor.B)
+        //private bool IsCommonContour(int x, int y)
+        //{
+        //    Color myColor = common.GetPixel(x, y);
 
-                    return true;
-            }
-
-            return false;
-        }
-
-        public void ProcessLevel(LevelType levelType)
-        {
-            LevelPoint[,] level = null;
-            if (levelType == LevelType.Up)
-                level = upLevel;
-            if (levelType == LevelType.Down)
-                level = downLevel;
-
-            Automat automat = new Automat(level, width, height);
-            automat.Run();
-
-            ClearLevel(levelType);
-        }
-
-        private void ClearLevel(LevelType levelType)
-        {
-            LevelPoint[,] level = null;
-            if (levelType == LevelType.Up)
-                level = upLevel;
-            if (levelType == LevelType.Down)
-                level = downLevel;
-
-            if (level == null) return;
-
-            List<LevelPoint> pointsToDelete = new List<LevelPoint>();
-
-            for (int x = 0; x < width; x++)
-            {
-                for (int y = 0; y < height; y++)
-                {
-                    if (level[x, y] == null) continue;
-
-                    bool toDelete = true;
-
-                    // jesli ktorykolwiek z sasiadow jest nullem, to nasz punkt jest konturem
-                    // i go nie usuwamy
-                    Point2D[] neighborCords = Helper.GetMoorNeighbors(x, y, width, height);
-                    //List<LevelPoint> neighbor = new List<LevelPoint>();
-
-                    // jesli punkt jest akurat konturem, to usuwamy go jesli sasiaduje
-                    // z punktami extended (musi sasiadowac z 3 punktami  wjednej osi X lub Y)
-                    if (level[x, y].Type == LevelPoint.LevelPointType.Countour)
-                    {
-                        toDelete = true;
-                    }
-                    else
-                    {
-
-                        foreach (Point2D p in neighborCords)
-                        {
-                            if (level[p.X, p.Y] == null) toDelete = false;
-                        }
-                    }
-
-                    if (toDelete)
-                    {
-                        pointsToDelete.Add(level[x, y]);
-                    }
-                }
-            }
-
-            foreach (LevelPoint p in pointsToDelete)
-            {
-                level[p.X, p.Y] = null;
-            }
-            pointsToDelete.Clear();
+        //    // jesli kolor naszego piksela jest inny niz color czesci wspolenj
+        //    // to nie moze byc konturem
+        //    if (myColor.R != descriptor.CommonColor.R ||
+        //        myColor.G != descriptor.CommonColor.G ||
+        //        myColor.B != descriptor.CommonColor.B)
+        //        return false;
 
 
-        }
+        //    Point2D[] neighbor = Helper.GetMoorNeighbors(x, y, width, height);
+        //    Color neighColor;
 
-        public void SaveLevel()
-        {
-            Bitmap bm = new Bitmap(width, height);
-            for(int x = 0; x < width; x++)
-                for (int y = 0; y < height; y++)
-                {
-                    if (middleLevel[x, y] != null)
-                        bm.SetPixel(x, y, descriptor.CommonColor);
+        //    // jesli ktorykolwiek z sasiadow ma inny kolor niz czesc wspolna
+        //    // to punkt nalezy do konturu
+        //    foreach (Point2D p in neighbor)
+        //    {
+        //        neighColor = common.GetPixel(p.X, p.Y);
 
-                    //if (upLevel[x, y] != null)
-                    //    bm.SetPixel(x, y, descriptor.UpColor);
+        //        if (neighColor.R != descriptor.CommonColor.R ||
+        //            neighColor.G != descriptor.CommonColor.G ||
+        //            neighColor.B != descriptor.CommonColor.B)
 
-                    //if (downLevel[x, y] != null)
-                    //    bm.SetPixel(x, y, descriptor.DownColor);
-                }
+        //            return true;
+        //    }
 
-            bm.Save("temp.bmp");
-        }
+        //    return false;
+
+        //}
+
+        //private bool IsCommonWithLevel(int x, int y, Color levelColor)
+        //{
+        //    Point2D[] neighbor = Helper.GetMoorNeighbors(x, y, width, height);
+        //    Color neighColor;
+
+        //    foreach (Point2D p in neighbor)
+        //    {
+        //        neighColor = common.GetPixel(p.X, p.Y);
+
+        //        if (neighColor.R == levelColor.R ||
+        //            neighColor.G == levelColor.G ||
+        //            neighColor.B == levelColor.B)
+
+        //            return true;
+        //    }
+
+        //    return false;
+        //}
+
+        //public void ProcessLevel(LevelType levelType)
+        //{
+        //    LevelPoint[,] level = null;
+        //    if (levelType == LevelType.Up)
+        //        level = upLevel;
+        //    if (levelType == LevelType.Down)
+        //        level = downLevel;
+
+        //    Automat automat = new Automat(level, width, height);
+        //    automat.Run();
+
+        //    ClearLevel(levelType);
+        //}
+
+        //private void ClearLevel(LevelType levelType)
+        //{
+        //    LevelPoint[,] level = null;
+        //    if (levelType == LevelType.Up)
+        //        level = upLevel;
+        //    if (levelType == LevelType.Down)
+        //        level = downLevel;
+
+        //    if (level == null) return;
+
+        //    List<LevelPoint> pointsToDelete = new List<LevelPoint>();
+
+        //    for (int x = 0; x < width; x++)
+        //    {
+        //        for (int y = 0; y < height; y++)
+        //        {
+        //            if (level[x, y] == null) continue;
+
+        //            bool toDelete = true;
+
+        //            // jesli ktorykolwiek z sasiadow jest nullem, to nasz punkt jest konturem
+        //            // i go nie usuwamy
+        //            Point2D[] neighborCords = Helper.GetMoorNeighbors(x, y, width, height);
+        //            //List<LevelPoint> neighbor = new List<LevelPoint>();
+
+        //            // jesli punkt jest akurat konturem, to usuwamy go jesli sasiaduje
+        //            // z punktami extended (musi sasiadowac z 3 punktami  wjednej osi X lub Y)
+        //            if (level[x, y].Type == LevelPoint.LevelPointType.Countour)
+        //            {
+        //                toDelete = true;
+        //            }
+        //            else
+        //            {
+
+        //                foreach (Point2D p in neighborCords)
+        //                {
+        //                    if (level[p.X, p.Y] == null) toDelete = false;
+        //                }
+        //            }
+
+        //            if (toDelete)
+        //            {
+        //                pointsToDelete.Add(level[x, y]);
+        //            }
+        //        }
+        //    }
+
+        //    foreach (LevelPoint p in pointsToDelete)
+        //    {
+        //        level[p.X, p.Y] = null;
+        //    }
+        //    pointsToDelete.Clear();
+
+
+        //}
+
+        //public void SaveLevel()
+        //{
+        //    Bitmap bm = new Bitmap(width, height);
+        //    for(int x = 0; x < width; x++)
+        //        for (int y = 0; y < height; y++)
+        //        {
+        //            if (middleLevel[x, y] != null)
+        //                bm.SetPixel(x, y, descriptor.CommonColor);
+
+        //            //if (upLevel[x, y] != null)
+        //            //    bm.SetPixel(x, y, descriptor.UpColor);
+
+        //            //if (downLevel[x, y] != null)
+        //            //    bm.SetPixel(x, y, descriptor.DownColor);
+        //        }
+
+        //    bm.Save("temp.bmp");
+        //}
         
     
     }

@@ -388,5 +388,197 @@ namespace DPGenerator
 
         }
 
+
+        public static void SaveConnection(LayerPoint[,] layer, int width, int height)
+        {
+            int commonCounter = 0;
+            int?[,] commonLayerID = new int?[width, height];
+
+            int layerCounter = 0;
+            int?[,] layerID = new int?[width, height];
+            
+            for (int x = 0; x < width; x++)
+            {
+                for (int y = 0; y < height; y++)
+                {
+                    if (layer[x, y] == null) continue;
+
+                    if (layer[x, y].Type == LayerPoint.LayerPointType.CommonContour)
+                    {
+                        if (commonLayerID[x, y] == null)
+                            commonLayerID[x, y] = commonCounter++;
+
+                        layerID[x, y] = layerCounter++;
+                        continue;
+                    }
+
+                    if (!layer[x, y].ConnectionX.HasValue || !layer[x, y].ConnectionY.HasValue)
+                    {
+                        System.Diagnostics.Debug.WriteLine("Layer point don't have a connection coords");
+                        continue;
+                    }
+
+                    layerID[x, y] = layerCounter++;
+
+                    int connX = layer[x, y].ConnectionX.Value;
+                    int connY = layer[x, y].ConnectionY.Value;
+
+                    if (commonLayerID[connX, connY] == null)
+                        commonLayerID[connX, connY] = commonCounter++;
+                    
+                }
+            }
+
+
+            string[] header = new string[] {
+                                            "ply",
+                                            "format ascii 1.0",
+                                            "element vertex ",   //2
+                                            "property float x",
+                                            "property float y",
+                                            "property float z",
+                                            "property uchar red",
+                                            "property uchar green",
+                                            "property uchar blue",
+                                            "element edge ",  //9
+                                            "property int vertex1",
+                                            "property int vertex2",
+                                            "property uchar red",
+                                            "property uchar green",
+                                            "property uchar blue",
+                                            "end_header"
+                                             };
+            header[2] += (commonCounter + layerCounter);
+            header[9] += (layerCounter);
+
+            int couter = 0;
+            bool[,] wasWriteCommon = new bool[width, height];
+            for (int x = 0; x < width; x++)
+                for (int y = 0; y < height; y++)
+                {
+                    wasWriteCommon[x, y] = false;
+                    commonLayerID[x, y] = -1;
+                    layerID[x, y] = -1;
+                }
+                
+            string line;
+            using (System.IO.StreamWriter file = new System.IO.StreamWriter("connections_v3.ply"))
+            {
+                foreach (string s in header)
+                    file.WriteLine(s);
+
+                // warstwa wspolna
+                for (int x = 0; x < width; x++)
+                {
+                    for (int y = 0; y < height; y++)
+                    {
+                        if (layer[x, y] == null) continue;
+
+                        int writeX = 0;
+                        int writeY = 0;
+
+                        if (layer[x, y].Type == LayerPoint.LayerPointType.CommonContour)
+                        {
+                            writeX = x;
+                            writeY = y;
+                        }
+                        else
+                        {
+                            if (layer[x, y].ConnectionX.HasValue && layer[x, y].ConnectionY.HasValue)
+                            {
+                                writeX = layer[x, y].ConnectionX.Value;
+                                writeY = layer[x, y].ConnectionY.Value;
+                            }
+                            else
+                            {
+                                continue;
+                            }
+                        }
+
+                        if (wasWriteCommon[writeX, writeY]) continue;
+
+                        line = writeX.ToString() + " " + writeY.ToString() + " 0 0 255 0";
+                        file.WriteLine(line);
+                        wasWriteCommon[writeX, writeY] = true;
+                        commonLayerID[writeX, writeY] = couter++;
+
+
+                    }
+                }
+
+                // warstwa rozszerzen
+                for (int x = 0; x < width; x++)
+                {
+                    for (int y = 0; y < height; y++)
+                    {
+                        if (layer[x, y] == null) continue;
+
+                        int writeX = 0;
+                        int writeY = 0;
+
+                        if (layer[x, y].Type == LayerPoint.LayerPointType.CommonContour)
+                        {
+                            writeX = x;
+                            writeY = y;
+                        }
+                        else
+                        {
+                            if (layer[x, y].ConnectionX.HasValue && layer[x, y].ConnectionY.HasValue)
+                            {
+                                writeX = x;
+                                writeY = y;
+                            }
+                            else
+                            {
+                                continue;
+                            }
+                        }
+
+
+                        line = writeX.ToString() + " " + writeY.ToString() + " 100 255 0 0";
+                        file.WriteLine(line);
+                        layerID[writeX, writeY] = couter++;
+
+                    }
+                }
+
+                // polaczenia
+                for (int x = 0; x < width; x++)
+                {
+                    for (int y = 0; y < height; y++)
+                    {
+                        if (layer[x, y] == null) continue;
+
+                        int commonID = 0;
+
+                        if (layer[x, y].Type == LayerPoint.LayerPointType.CommonContour)
+                        {
+                            commonID = commonLayerID[x, y].Value;
+                        }
+                        else
+                        {
+                            if (layer[x, y].ConnectionX.HasValue && layer[x, y].ConnectionY.HasValue)
+                            {
+                                commonID = commonLayerID[layer[x, y].ConnectionX.Value, layer[x, y].ConnectionY.Value].Value;
+                            }
+                            else
+                            {
+                                continue;
+                            }
+                        }
+
+
+                        line = commonID.ToString() + " " + layerID[x, y].Value.ToString() + " 0 0 255";
+                        file.WriteLine(line);
+
+                    }
+                }
+
+
+            }
+
+        }
+    
+    
     }
 }

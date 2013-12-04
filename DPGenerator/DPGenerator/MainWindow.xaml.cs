@@ -182,44 +182,44 @@ namespace DPGenerator
 
         private void Button_Click_5(object sender, RoutedEventArgs e)
         {
-            LoadFiles();
+           // LoadFiles();
         }
 
         private void Button_Click_6(object sender, RoutedEventArgs e)
         {
-            if (filesName.Count < 2) return;
+           // if (filesName.Count < 2) return;
 
-            CommonPart cp = new CommonPart(filesName[0], filesName[1]);
-            cp.Generate(75, 238, 132);
-            cp.Clear();
+           // CommonPart cp = new CommonPart(filesName[0], filesName[1]);
+           // cp.Generate(75, 238, 132);
+           // cp.Clear();
 
-            CommonDescriptor descriptor = new CommonDescriptor()
-                {
-                    CommonColor = System.Drawing.Color.FromArgb(75, 238, 132),
-                    UpColor = System.Drawing.Color.FromArgb(255, 0, 0),
-                    DownColor = System.Drawing.Color.FromArgb(0, 0, 255)
-                };
+           // CommonDescriptor descriptor = new CommonDescriptor()
+           //     {
+           //         CommonColor = System.Drawing.Color.FromArgb(75, 238, 132),
+           //         UpColor = System.Drawing.Color.FromArgb(255, 0, 0),
+           //         DownColor = System.Drawing.Color.FromArgb(0, 0, 255)
+           //     };
 
-            //CellularAutomaton2D automat2D = new CellularAutomaton2D(cp.CommonBitmap, descriptor);
-
-
-            //automat2D.Run();
-            //automat2D.ClearUnnecessaryCells();
+           // //CellularAutomaton2D automat2D = new CellularAutomaton2D(cp.CommonBitmap, descriptor);
 
 
-            //automat2D.CreateConnection();
-            //List<Cell> connection = automat2D.GetCellWithConnection();
+           // //automat2D.Run();
+           // //automat2D.ClearUnnecessaryCells();
+
+
+           // //automat2D.CreateConnection();
+           // //List<Cell> connection = automat2D.GetCellWithConnection();
 
             
-            LevelConnector connector = new LevelConnector(cp.CommonBitmap, descriptor);
+           // LevelConnector connector = new LevelConnector(cp.CommonBitmap, descriptor);
 
-            connector.CreateLevels();
-            connector.SaveLevel();
-            connector.ProcessLevel(LevelConnector.LevelType.Up);
-            connector.ProcessLevel(LevelConnector.LevelType.Down);
+           // connector.CreateLevels();
+           // connector.SaveLevel();
+           // connector.ProcessLevel(LevelConnector.LevelType.Up);
+           // connector.ProcessLevel(LevelConnector.LevelType.Down);
 
-            PlyWriter.WriteConnection(connector.upLevel, connector.middleLevel, cp.CommonBitmap.Width, cp.CommonBitmap.Height);
-           // PlyWriter.WriteConnection(connector.upLevel, cp.CommonBitmap.Width, cp.CommonBitmap.Height);
+           // PlyWriter.WriteConnection(connector.upLevel, connector.middleLevel, cp.CommonBitmap.Width, cp.CommonBitmap.Height);
+           //// PlyWriter.WriteConnection(connector.upLevel, cp.CommonBitmap.Width, cp.CommonBitmap.Height);
         
         }
 
@@ -232,25 +232,32 @@ namespace DPGenerator
         {
             if (filesName.Count < 2) return;
 
-            CommonPart cp = new CommonPart(filesName[0], filesName[1]);
-            cp.Generate(75, 238, 132);
-            cp.Clear();
+            //CommonPart cp = new CommonPart(filesName[0], filesName[1]);
+            //cp.Generate(75, 238, 132);
+            //cp.Clear();
 
-            CommonDescriptor descriptor = new CommonDescriptor()
-            {
-                CommonColor = System.Drawing.Color.FromArgb(75, 238, 132),
-                UpColor = System.Drawing.Color.FromArgb(255, 0, 0),
-                DownColor = System.Drawing.Color.FromArgb(0, 0, 255)
-            };
+            //CommonDescriptor descriptor = new CommonDescriptor()
+            //{
+            //    CommonColor = System.Drawing.Color.FromArgb(75, 238, 132),
+            //    UpColor = System.Drawing.Color.FromArgb(255, 0, 0),
+            //    DownColor = System.Drawing.Color.FromArgb(0, 0, 255)
+            //};
 
+            CommonCreator cc = new CommonCreator(filesName[0], filesName[1]);
+            cc.Generate(75, 238, 132);
+            cc.GenerateCommonDescriptor();
 
-            LayerConnector connector = new LayerConnector(cp.CommonBitmap, descriptor);
+            LayerConnector connector = new LayerConnector(cc.CommonBitmap, cc.Descriptor);
             connector.CreateLayer();
             connector.SaveLayer(LayerConnector.LayerType.Up, "initialLayer.bmp");
             connector.Run(LayerConnector.LayerType.Up);
             connector.SaveLayer(LayerConnector.LayerType.Up, "after_automat.bmp");
             connector.ClearLayer(LayerConnector.LayerType.Up);
             connector.SaveLayer(LayerConnector.LayerType.Up, "after_clear.bmp");
+            // nie dziala ;/
+            //connector.CompleteCommonConnection(LayerConnector.LayerType.Up);
+
+            PlyWriter.SaveConnection(connector.upLayer, connector.width, connector.height);
         }
 
 

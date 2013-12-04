@@ -26,6 +26,7 @@ namespace DPGenerator.Model
         public int? ConnectionX { get; set; }
         public int? ConnectionY { get; set; }
         public LayerPointType Type { get; set; }
+        public int? SeedID { get; set; }
 
         public LayerPoint()
         {

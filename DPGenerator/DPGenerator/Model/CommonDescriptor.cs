@@ -9,18 +9,22 @@ namespace DPGenerator.Model
 {
     class CommonDescriptor
     {
-        public Color CommonColor;
+        //public Color CommonColor;
+        public List<Color> CommonColor;
         public Color UpColor;
         public Color DownColor;
 
 
         public bool EqualCommon(Color color)
         {
-            if(color.R == CommonColor.R &&
-                color.G == CommonColor.G &&
-                color.B == CommonColor.B)
+            foreach (Color commonColor in CommonColor)
             {
-                return true;
+                if (color.R == commonColor.R &&
+                    color.G == commonColor.G &&
+                    color.B == commonColor.B)
+                {
+                    return true;
+                }
             }
 
             return false;
@@ -49,6 +53,21 @@ namespace DPGenerator.Model
             }
 
             return false;
+        }
+
+        public int GetSeedID(Color color)
+        {
+            for (int i = 0; i < CommonColor.Count; i++)
+            {
+                if (color.R == CommonColor[i].R &&
+                   color.G == CommonColor[i].G &&
+                   color.B == CommonColor[i].B)
+                {
+                    return i;
+                }
+            }
+
+            return -1;
         }
 
 
