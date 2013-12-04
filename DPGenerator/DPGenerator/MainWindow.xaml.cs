@@ -223,6 +223,36 @@ namespace DPGenerator
         
         }
 
+        private void Button_Click_7(object sender, RoutedEventArgs e)
+        {
+            LoadFiles();
+        }
+
+        private void Button_Click_8(object sender, RoutedEventArgs e)
+        {
+            if (filesName.Count < 2) return;
+
+            CommonPart cp = new CommonPart(filesName[0], filesName[1]);
+            cp.Generate(75, 238, 132);
+            cp.Clear();
+
+            CommonDescriptor descriptor = new CommonDescriptor()
+            {
+                CommonColor = System.Drawing.Color.FromArgb(75, 238, 132),
+                UpColor = System.Drawing.Color.FromArgb(255, 0, 0),
+                DownColor = System.Drawing.Color.FromArgb(0, 0, 255)
+            };
+
+
+            LayerConnector connector = new LayerConnector(cp.CommonBitmap, descriptor);
+            connector.CreateLayer();
+            connector.SaveLayer(LayerConnector.LayerType.Up, "initialLayer.bmp");
+            connector.Run(LayerConnector.LayerType.Up);
+            connector.SaveLayer(LayerConnector.LayerType.Up, "after_automat.bmp");
+            connector.ClearLayer(LayerConnector.LayerType.Up);
+            connector.SaveLayer(LayerConnector.LayerType.Up, "after_clear.bmp");
+        }
+
 
 
 

@@ -76,6 +76,8 @@
     <Compile Include="Model\CommonDescriptor.cs" />
     <Compile Include="Model\Config.cs" />
     <Compile Include="Model\Helper.cs" />
+    <Compile Include="Model\LayerConnector.cs" />
+    <Compile Include="Model\LayerPoint.cs" />
     <Compile Include="Model\LevelConnector.cs" />
     <Compile Include="Model\LevelPoint.cs" />
     <Compile Include="Model\Point2D.cs" />

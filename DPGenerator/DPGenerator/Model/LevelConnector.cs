@@ -18,7 +18,6 @@ namespace DPGenerator.Model
             Down
         }
 
-
         private readonly int width;
         private readonly int height;
         private readonly CommonDescriptor descriptor;
