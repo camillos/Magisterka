@@ -218,7 +218,8 @@ namespace DPGenerator
             connector.ProcessLevel(LevelConnector.LevelType.Up);
             connector.ProcessLevel(LevelConnector.LevelType.Down);
 
-            PlyWriter.WriteConnection(connector.upLevel, cp.CommonBitmap.Width, cp.CommonBitmap.Height);
+            PlyWriter.WriteConnection(connector.upLevel, connector.middleLevel, cp.CommonBitmap.Width, cp.CommonBitmap.Height);
+           // PlyWriter.WriteConnection(connector.upLevel, cp.CommonBitmap.Width, cp.CommonBitmap.Height);
         
         }
 

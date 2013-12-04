@@ -24,7 +24,7 @@ namespace DPGenerator.Model
         private readonly CommonDescriptor descriptor;
         private readonly Bitmap common;
 
-        private LevelPoint[,] middleLevel;
+        public LevelPoint[,] middleLevel;
         private long countMiddleLevell = 0;
 
         public LevelPoint[,] upLevel;
@@ -198,74 +198,6 @@ namespace DPGenerator.Model
                     if (level[x, y].Type == LevelPoint.LevelPointType.Countour)
                     {
                         toDelete = true;
-                        //toDelete = false;
-                        //// omijamy punkty kontruru ktore sa na brzegach struktury
-                        //if (x > 0 && x < width - 1 && y > 0 && y < height - 1)
-                        //{
-                        //    int left = x - 1;
-                        //    int right = x + 1;
-                        //    int top = y - 1;
-                        //    int down = y + 1;
-
-                        //    int counter = 0;
-
-                        //    // sprawdza gorena linie sasiadow
-                        //    if (level[left, top] != null)
-                        //        if (level[left, top].Type == LevelPoint.LevelPointType.Extended)
-                        //            counter++;
-                        //    if (level[x, top] != null)
-                        //        if (level[x, top].Type == LevelPoint.LevelPointType.Extended)
-                        //            counter++;
-                        //    if (level[right, top] != null)
-                        //        if (level[right, top].Type == LevelPoint.LevelPointType.Extended)
-                        //            counter++;
-
-                        //    if (counter == 3) toDelete = true;
-                        //    counter = 0;
-
-                        //    // sprawdza dolna linie sasiadow
-                        //    if (level[left, down] != null)
-                        //        if (level[left, down].Type == LevelPoint.LevelPointType.Extended)
-                        //            counter++;
-                        //    if (level[x, down] != null)
-                        //        if (level[x, down].Type == LevelPoint.LevelPointType.Extended)
-                        //            counter++;
-                        //    if (level[right, down] != null)
-                        //        if (level[right, down].Type == LevelPoint.LevelPointType.Extended)
-                        //            counter++;
-
-                        //    if (counter == 3) toDelete = true;
-                        //    counter = 0;
-
-                        //    // sprawdza lewa linie sasiadow
-                        //    if (level[left, top] != null)
-                        //        if (level[left, top].Type == LevelPoint.LevelPointType.Extended)
-                        //            counter++;
-                        //    if (level[left, y] != null)
-                        //        if (level[left, y].Type == LevelPoint.LevelPointType.Extended)
-                        //            counter++;
-                        //    if (level[left, down] != null)
-                        //        if (level[left, down].Type == LevelPoint.LevelPointType.Extended)
-                        //            counter++;
-
-                        //    if (counter == 3) toDelete = true;
-                        //    counter = 0;
-
-                        //    // sprawdza prawa linie sasiadow
-                        //    if (level[right, top] != null)
-                        //        if (level[right, top].Type == LevelPoint.LevelPointType.Extended)
-                        //            counter++;
-                        //    if (level[right, y] != null)
-                        //        if (level[right, y].Type == LevelPoint.LevelPointType.Extended)
-                        //            counter++;
-                        //    if (level[right, down] != null)
-                        //        if (level[right, down].Type == LevelPoint.LevelPointType.Extended)
-                        //            counter++;
-
-                        //    if (counter == 3) toDelete = true;
-                        //    counter = 0;
-                        //}
-
                     }
                     else
                     {
