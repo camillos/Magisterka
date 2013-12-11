@@ -17,7 +17,7 @@ namespace DPGenerator.Model
 
         private LayerPoint[,] middleLayer;
         public LayerPoint[,] upLayer;
-        //private LayerPoint[,] downLayer;
+        public LayerPoint[,] downLayer;
 
         public enum LayerType
         {
@@ -39,25 +39,44 @@ namespace DPGenerator.Model
         public void CreateLayer()
         {
             upLayer = new LayerPoint[width, height];
+            downLayer = new LayerPoint[width, height];
 
             for (int x = 0; x < width; x++)
             {
                 for (int y = 0; y < height; y++)
                 {
+
+                    // dla gory
                     LayerPoint.LayerPointType pointType = GetPointTypeForLayer(x, y, LayerType.Up);
 
-                    if (pointType == LayerPoint.LayerPointType.Undefined) continue;
-
-                    LayerPoint point = new LayerPoint(x, y, pointType);
-
-                    // id ziarna ustawiamy tylko dla kontorow rozszerzalnych
-                    if (pointType == LayerPoint.LayerPointType.ExpansibleContour)
+                    if (pointType != LayerPoint.LayerPointType.Undefined)
                     {
-                        Color pointColor = commonBitmap.GetPixel(x, y);
-                        point.SeedID = descriptor.GetSeedID(pointColor);
+                        LayerPoint point = new LayerPoint(x, y, pointType);
+
+                        // id ziarna ustawiamy tylko dla kontorow rozszerzalnych
+                        if (pointType == LayerPoint.LayerPointType.ExpansibleContour)
+                        {
+                            Color pointColor = commonBitmap.GetPixel(x, y);
+                            point.SeedID = descriptor.GetSeedID(pointColor);
+                        }
+
+                        upLayer[x, y] = point;
                     }
 
-                    upLayer[x, y] = point;
+                    // dla dolu
+                    LayerPoint.LayerPointType pointTypeDown = GetPointTypeForLayer(x, y, LayerType.Down);
+                    if (pointTypeDown != LayerPoint.LayerPointType.Undefined)
+                    {
+                        LayerPoint point = new LayerPoint(x, y, pointTypeDown);
+
+                        if (pointTypeDown == LayerPoint.LayerPointType.ExpansibleContour)
+                        {
+                            Color pointColor = commonBitmap.GetPixel(x, y);
+                            point.SeedID = descriptor.GetSeedID(pointColor);
+                        }
+
+                        downLayer[x, y] = point;
+                    }
                 }
             }
         }
@@ -70,7 +89,7 @@ namespace DPGenerator.Model
                 layer = upLayer;
 
             if (layerType == LayerType.Down)
-                layer = null;
+                layer = downLayer;
 
             if (layer == null) return;
 
@@ -159,7 +178,9 @@ namespace DPGenerator.Model
 
             if (layerType == LayerType.Up)
                 upLayer = layer;
-            //if(layerType == LayerType.Down)
+
+            if (layerType == LayerType.Down)
+                downLayer = layer;
 
 
         }
@@ -171,7 +192,8 @@ namespace DPGenerator.Model
             if (layerType == LayerType.Up)
                 layer = upLayer;
 
-            //if(layerType == LayerType.Down)
+            if (layerType == LayerType.Down)
+                layer = downLayer;
 
             if (layer == null) return;
 
@@ -261,6 +283,9 @@ namespace DPGenerator.Model
             if (layerType == LayerType.Up)
                 upLayer = layer;
 
+            if (layerType == LayerType.Down)
+                downLayer = layer;
+
         }
 
         /// <summary>
@@ -341,7 +366,7 @@ namespace DPGenerator.Model
                         side2.Add(new Point2D(x, y));
                         side2.Add(expandedList[1]);
                     }
-                    
+
 
                     // dla side1
                     bool added = true;
@@ -487,7 +512,7 @@ namespace DPGenerator.Model
                                 }
                     }
 
-                    
+
                     sideCommon1.Reverse();
                     List<Point2D> margeCommonList = sideCommon1;
 
@@ -598,7 +623,7 @@ namespace DPGenerator.Model
             }
 
             // dla punktow z dolu
-            if (descriptor.EqualUp(c))
+            if (descriptor.EqualDown(c))
             {
                 if (layerType == LayerType.Down)
                     return LayerPoint.LayerPointType.ExpansiblePoint;
@@ -686,7 +711,7 @@ namespace DPGenerator.Model
             if (layerType == LayerType.Up)
                 layer = upLayer;
             if (layerType == LayerType.Down)
-                layer = null;
+                layer = downLayer;
 
 
             if (layer == null) return;
