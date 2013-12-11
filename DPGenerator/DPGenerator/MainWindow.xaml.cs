@@ -249,15 +249,24 @@ namespace DPGenerator
 
             LayerConnector connector = new LayerConnector(cc.CommonBitmap, cc.Descriptor);
             connector.CreateLayer();
-            connector.SaveLayer(LayerConnector.LayerType.Up, "initialLayer.bmp");
+            //connector.SaveLayer(LayerConnector.LayerType.Up, "initialLayer.bmp");
             connector.Run(LayerConnector.LayerType.Up);
-            connector.SaveLayer(LayerConnector.LayerType.Up, "after_automat.bmp");
+            //connector.SaveLayer(LayerConnector.LayerType.Up, "after_automat.bmp");
             connector.ClearLayer(LayerConnector.LayerType.Up);
-            connector.SaveLayer(LayerConnector.LayerType.Up, "after_clear.bmp");
+            //connector.SaveLayer(LayerConnector.LayerType.Up, "after_clear.bmp");
             // nie dziala ;/
             //connector.CompleteCommonConnection(LayerConnector.LayerType.Up);
 
-            PlyWriter.SaveConnection(connector.upLayer, connector.width, connector.height);
+            //PlyWriter.SaveConnection(connector.upLayer, connector.width, connector.height);
+
+            connector.Run(LayerConnector.LayerType.Down);
+            connector.ClearLayer(LayerConnector.LayerType.Down);
+
+
+            LayerContainer lc = new LayerContainer(connector.width, connector.height, 10);
+            lc.Add(0, 1, 2, connector);
+
+            PlyWriter.SaveContainer(lc);
         }
 
 

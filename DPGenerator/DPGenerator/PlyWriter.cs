@@ -578,7 +578,56 @@ namespace DPGenerator
             }
 
         }
-    
-    
+
+
+
+        public static void SaveContainer(LayerContainer container)
+        {
+            string[] header = new string[] {
+                                            "ply",
+                                            "format ascii 1.0",
+                                            "element vertex ",   //2
+                                            "property float x",
+                                            "property float y",
+                                            "property float z",
+                                            "property uchar red",
+                                            "property uchar green",
+                                            "property uchar blue",
+                                            "element edge ",  //9
+                                            "property int vertex1",
+                                            "property int vertex2",
+                                            "property uchar red",
+                                            "property uchar green",
+                                            "property uchar blue",
+                                            "end_header"
+                                             };
+            header[2] += container.PointCount.ToString();
+            header[9] += container.Connections.Count.ToString();
+
+            List<LayerContainer.Vertex> vertex = container.GetVertex();
+
+             string line;
+             using (System.IO.StreamWriter file = new System.IO.StreamWriter("connections_v4_container.ply"))
+             {
+                 foreach (string s in header)
+                     file.WriteLine(s);
+
+                 foreach (LayerContainer.Vertex v in vertex)
+                 {
+                     line = v.X.ToString() + " " + v.Y.ToString() + " " + (v.Z * 100).ToString() + " 255 0 0";
+                     file.WriteLine(line);
+                 }
+
+                 foreach (LayerContainer.Connection c in container.Connections)
+                 {
+                     line = c.ID1.ToString() + " " + c.ID2.ToString() + " 0 0 255";
+                     file.WriteLine(line);
+                 }
+
+             }
+
+        }
+
+
     }
 }
