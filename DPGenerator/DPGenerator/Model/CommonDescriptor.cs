@@ -70,6 +70,11 @@ namespace DPGenerator.Model
             return -1;
         }
 
+        public void ClearDescriptor()
+        {
+            CommonColor.Clear();
+            CommonColor = null;
+        }
 
     }
 }

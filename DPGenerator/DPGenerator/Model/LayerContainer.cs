@@ -243,6 +243,17 @@ namespace DPGenerator.Model
 
         }
 
+        public void ClearContainer()
+        {
+            Connections.Clear();
+            Connections = null;
+
+            Space = null;
+
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+        }
+
 
 
 

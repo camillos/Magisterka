@@ -232,17 +232,6 @@ namespace DPGenerator
         {
             if (filesName.Count < 2) return;
 
-            //CommonPart cp = new CommonPart(filesName[0], filesName[1]);
-            //cp.Generate(75, 238, 132);
-            //cp.Clear();
-
-            //CommonDescriptor descriptor = new CommonDescriptor()
-            //{
-            //    CommonColor = System.Drawing.Color.FromArgb(75, 238, 132),
-            //    UpColor = System.Drawing.Color.FromArgb(255, 0, 0),
-            //    DownColor = System.Drawing.Color.FromArgb(0, 0, 255)
-            //};
-
             CommonCreator cc = new CommonCreator(filesName[0], filesName[1]);
             cc.Generate(75, 238, 132);
             cc.GenerateCommonDescriptor();
@@ -251,7 +240,7 @@ namespace DPGenerator
             connector.CreateLayer();
             //connector.SaveLayer(LayerConnector.LayerType.Up, "initialLayer.bmp");
             connector.Run(LayerConnector.LayerType.Up);
-            //connector.SaveLayer(LayerConnector.LayerType.Up, "after_automat.bmp");
+            //connector.SaveLayer(LayerConnector.LayerType.Up, "after_automat1up.bmp");
             connector.ClearLayer(LayerConnector.LayerType.Up);
             //connector.SaveLayer(LayerConnector.LayerType.Up, "after_clear.bmp");
             // nie dziala ;/
@@ -260,20 +249,59 @@ namespace DPGenerator
             //PlyWriter.SaveConnection(connector.upLayer, connector.width, connector.height);
 
             connector.Run(LayerConnector.LayerType.Down);
+            //connector.SaveLayer(LayerConnector.LayerType.Down, "after_automat1down.bmp");
             connector.ClearLayer(LayerConnector.LayerType.Down);
 
 
             LayerContainer lc = new LayerContainer(connector.width, connector.height, 10);
             lc.Add(0, 1, 2, connector);
 
+            connector.ClearConnector();
+            cc.ClearCommonCreator();
+
+            /////////////////////////////////////////////////////////////////////////
+
+            cc = new CommonCreator(filesName[1], filesName[2]);
+            cc.Generate(75, 238, 132);
+            cc.GenerateCommonDescriptor();
+
+            connector = new LayerConnector(cc.CommonBitmap, cc.Descriptor);
+            connector.CreateLayer();
+            connector.Run(LayerConnector.LayerType.Up);
+            connector.ClearLayer(LayerConnector.LayerType.Up);
+            connector.Run(LayerConnector.LayerType.Down);
+            connector.ClearLayer(LayerConnector.LayerType.Down);
+
+            lc.Add(2, 3, 4, connector);
+
+
+            connector.ClearConnector();
+            cc.ClearCommonCreator();
+
+            //////////////////////////////////////////////////////////
+
+            cc = new CommonCreator(filesName[2], filesName[3]);
+            cc.Generate(75, 238, 132);
+            cc.GenerateCommonDescriptor();
+
+            connector = new LayerConnector(cc.CommonBitmap, cc.Descriptor);
+            connector.CreateLayer();
+            connector.Run(LayerConnector.LayerType.Up);
+            connector.ClearLayer(LayerConnector.LayerType.Up);
+            connector.Run(LayerConnector.LayerType.Down);
+            connector.ClearLayer(LayerConnector.LayerType.Down);
+
+            lc.Add(4, 5, 6, connector);
+
+            connector.ClearConnector();
+            cc.ClearCommonCreator();
+
             PlyWriter.SaveContainer(lc);
+
+            lc.ClearContainer();
         }
 
 
-
-
-
-        
              
 
     }

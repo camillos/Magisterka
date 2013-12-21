@@ -626,6 +626,11 @@ namespace DPGenerator
 
              }
 
+             vertex.Clear();
+             vertex = null;
+             GC.Collect();
+             GC.WaitForPendingFinalizers();
+
         }
 
 

@@ -93,6 +93,10 @@ namespace DPGenerator.Model
 
             if (layer == null) return;
 
+
+            long automatInter = 0;
+
+
             // automat
 
             bool mustRun = true;
@@ -117,7 +121,7 @@ namespace DPGenerator.Model
 
 
                         // od tego miejca nastepuja juz zmiany w puktach lub istnieja punkty rozszerznia
-                        mustRun = true;
+                        //mustRun = true;
                         Point2D[] neighborCords = Helper.GetMoorNeighbors(x, y, width, height);
 
                         // sasiadow wybieramy tylko zposrod punktow konturu rozszerzajacego
@@ -141,6 +145,7 @@ namespace DPGenerator.Model
                             continue;
                         }
 
+                        mustRun = true;
                         Random r = new Random();
                         LayerPoint bestPoint = neighbors[r.Next(neighbors.Count)];
 
@@ -171,8 +176,25 @@ namespace DPGenerator.Model
                 if (mustRun)
                 {
                     layer = null;
+                    
+                    GC.Collect();
+                    GC.WaitForPendingFinalizers();
+
                     layer = nextLayer;
                 }
+
+                nextLayer = null;
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
+
+
+
+                //if (automatInter < 150)
+                //{
+                //    SaveAutomatProgres(layer, automatInter.ToString() + ".bmp");
+                //    automatInter++;
+                //}
+
 
             } // koniec while()
 
@@ -181,6 +203,10 @@ namespace DPGenerator.Model
 
             if (layerType == LayerType.Down)
                 downLayer = layer;
+
+            layer = null;
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
 
 
         }
@@ -205,6 +231,12 @@ namespace DPGenerator.Model
                 {
                     if (layer[x, y] == null) continue;
                     if (layer[x, y].Type == LayerPoint.LayerPointType.CommonContour) continue;
+                    //usuwa samotne regiony
+                    if (layer[x, y].Type == LayerPoint.LayerPointType.ExpansiblePoint)
+                    {
+                        layer[x, y] = null;
+                        continue;
+                    }
 
                     if (layer[x, y].Type == LayerPoint.LayerPointType.ExpansibleContour)
                     {
@@ -580,9 +612,6 @@ namespace DPGenerator.Model
 
             LayerPoint initPoint = layer[x, y];
             Point2D connection = new Point2D(initPoint.ConnectionX.Value, initPoint.ConnectionY.Value);
-
-
-
         }
 
 
@@ -740,6 +769,101 @@ namespace DPGenerator.Model
             bm.Save(fileName);
 
         }
+
+
+        public void ClearConnector()
+        {
+            commonBitmap = null;
+            descriptor = null;
+
+            middleLayer = null;
+            upLayer = null;
+            downLayer = null;
+
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+        }
+
+
+        public void SaveAutomatProgres(LayerPoint[,] layer, string fileName)
+        {
+            Bitmap bm = new Bitmap(width, height);
+
+
+            for (int x = 0; x < width; x++)
+                for (int y = 0; y < height; y++)
+                {
+                    if (layer[x, y] == null) continue;
+
+                    if (layer[x, y].Type == LayerPoint.LayerPointType.CommonContour)
+                        bm.SetPixel(x, y, Color.FromArgb(0, 150, 0));
+
+                    if (layer[x, y].Type == LayerPoint.LayerPointType.ExpansibleContour)
+                        bm.SetPixel(x, y, Color.FromArgb(0, 255, 0));
+
+                    if (layer[x, y].Type == LayerPoint.LayerPointType.ExpandedContour)
+                        bm.SetPixel(x, y, Color.FromArgb(0, 0, 0));
+
+                    if (layer[x, y].Type == LayerPoint.LayerPointType.ExpansiblePoint)
+                        
+                            bm.SetPixel(x, y, Color.FromArgb(255, 0, 0));
+                       
+                }
+
+            bm.Save(fileName);
+
+        }
+
+
+        public void DeleteAloneRegion(LayerType layerType)
+        {
+            LayerPoint[,] layer = null;
+            Color color;
+
+            if (layerType == LayerType.Up)
+            {
+                layer = upLayer;
+                color = descriptor.UpColor;
+            }
+            if (layerType == LayerType.Down)
+            {
+                layer = downLayer;
+                color = descriptor.DownColor;
+            }
+
+            if (layer == null) return;
+
+            bool[,] mask = new bool[width, height];
+            for (int x = 0; x < width; x++)
+                for (int y = 0; y < height; y++)
+                {
+                    if (layer[x, y] == null) { mask[x, y] = true; continue; }
+                    
+
+                    mask[x, y] = false;
+                }
+
+
+
+
+            for (int x = 0; x < width; x++)
+                for (int y = 0; y < height; y++)
+                {
+                    if (mask[x, y]) continue;
+                    if (layer[x, y] == null)
+                    {
+                        mask[x, y] = true;
+                        continue;
+                    }
+
+                    bool isAlone = true;
+
+
+
+                }
+
+        }
+
 
 
     }

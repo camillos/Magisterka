@@ -86,6 +86,7 @@ namespace DPGenerator.Model
         public void GenerateCommonDescriptor()
         {
             List<Color> greenTones = new List<Color>();
+
             int green = 255;
 
             for (int x = 0; x < width; x++)
@@ -117,7 +118,7 @@ namespace DPGenerator.Model
         private void PaintRegion(int start_x, int start_y, Color color)
         {
             Color oldColor = outputBitmap.GetPixel(start_x, start_y);
-
+           
             bool[,] mask = new bool[width, height];
             for (int x = 0; x < width; x++)
                 for (int y = 0; y < height; y++)
@@ -135,7 +136,7 @@ namespace DPGenerator.Model
                 current = queue.Dequeue();
                 currentColor = outputBitmap.GetPixel(current.X, current.Y);
 
-                if(currentColor.R == oldColor.R && 
+                if (currentColor.R == oldColor.R &&
                     currentColor.G == oldColor.G &&
                     currentColor.B == oldColor.B)
                 {
@@ -186,12 +187,27 @@ namespace DPGenerator.Model
                         }
                     }
                 }
-                
+               
             }
 
         }
 
 
+        public void ClearCommonCreator()
+        {
+            top.Dispose();
+            top = null;
+            down.Dispose();
+            down = null;
+            outputBitmap.Dispose();
+            outputBitmap = null;
+
+            descriptor.ClearDescriptor();
+            descriptor = null;
+
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+        }
 
 
     }
